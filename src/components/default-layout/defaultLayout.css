@@ -1,9 +1,42 @@
-.menu {
-  background-color: gray;
-  font-size: 1.2rem;
-  color: white;
+.header {
+  height: 60px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  height: 50px;
+  background-color: black;
+  z-index: 100;
+}
+
+.header_logo {
+  margin-right: 20px;
+}
+.header_search {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.header_links {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 20px;
+  font-weight: 800;
+  margin-right: 20px;
+}
+.header_links > div {
+  margin-right: 20px;
+}
+.sign > div {
+  margin-right: 20px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
 }

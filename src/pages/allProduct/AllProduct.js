@@ -1,13 +1,11 @@
 import React from "react";
+import { AllProductComponent } from "../../components/allProductComponent/allProductComponent";
 import DefaultLayout from "../../components/default-layout/DefaultLayout";
-import HomeComponent from "../../components/homeComponent/HomeComponent";
 
-const Home = () => {
+export const AllProduct = () => {
   return (
     <DefaultLayout>
-      <HomeComponent />
+      <AllProductComponent />
     </DefaultLayout>
   );
 };
-
-export default Home;

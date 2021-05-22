@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const rootUrl = "http://localhost:8001/api/v1/";
-const createUserApi = rootUrl + "create-account";
+const loginAPIurl = rootUrl + "login";
 
-export const createUser = (newUserFormData) => {
+export const loginAPI = (loginFormData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(newUserFormData);
-      const { data } = await axios.post(createUserApi, newUserFormData);
+      console.log(loginFormData);
+      const { data } = await axios.post(loginAPIurl, loginFormData);
 
       resolve(data);
     } catch (error) {
@@ -15,3 +15,4 @@ export const createUser = (newUserFormData) => {
     }
   });
 };
+

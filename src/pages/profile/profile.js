@@ -1,12 +1,8 @@
 import React from "react";
 import LoginForm from "../../components/login/LoginForm";
 import DefaultLayout from "../../components/default-layout/DefaultLayout";
-const Login = () => {
-  return (
-    <div>
-      <LoginForm />
-    </div>
-  );
+const Profile = () => {
+  return <div>Hi i am the profile</div>;
 };
 
-export default Login;
+export default Profile;

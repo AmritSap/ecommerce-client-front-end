@@ -1,48 +1,94 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Form, Button, FormControl } from "react-bootstrap";
+import {
+  div,
+  Nav,
+  Form,
+  Button,
+  FormControl,
+  NavDropdown,
+} from "react-bootstrap";
+import { MenuComponent } from "../menuComponent/menuComponent";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import "./defaultLayout.css";
+import image from "../../assets/storeLogo/organiccartlogo.jpg";
 const Header = () => {
-  return (
-    <div>
-      <Navbar bg="light" variant="light" className="container">
-        <Navbar.Brand>
-          <Nav.Link>
-            {" "}
-            <Link to="/Home">Organic Cart </Link>
-          </Nav.Link>
-        </Navbar.Brand>
+  const history = useHistory();
+  const { isAuthorised } = useSelector((state) => state.login);
+  const { cartList } = useSelector((state) => state.cart);
+  const totalItems = () => {
+    let totalItemsCount = 0;
 
-        <Form inline>
-          <FormControl
-            type="text"
-            placeholder="Search For Anything"
-            className="mr-sm-2"
-          />
-          <Button variant="outline-primary">Search</Button>
-        </Form>
-        <Nav className="ml-4 mr-0">
-          <Nav.Link>
+    cartList.forEach((item) => {
+      totalItemsCount = totalItemsCount + item.selectedQty;
+    });
+    return totalItemsCount;
+  };
+
+  const handleOnClick = () => {
+    localStorage.removeItem("EcommerceRefreshJWT");
+    sessionStorage.removeItem("accessJWT");
+    history.push("/Home");
+  };
+
+  return (
+    <>
+      <div className="header">
+        <div className="header_logo">
+          {" "}
+          <Link to="/Home">
+            <h4>Organic Cart</h4>
+          </Link>
+        </div>
+        <div className="header_search">
+          <div className="header_searchInput">
+            <Form inline>
+              <FormControl
+                type="text"
+                placeholder="Search For Anything"
+                className="mr-sm-2"
+              />
+            </Form>
+          </div>
+          <div className="header_button">
             {" "}
-            <Link to="/Sign-In">Sign In </Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to="/Create-Account">Create Account</Link>
-          </Nav.Link>
-          <Nav.Link>
+            <Button variant="dark">Search</Button>
+          </div>
+        </div>
+        <div className="header_links">
+          {localStorage.getItem("EcommerceRefreshJWT") ? (
+            <div className="header_logout">
+              <Link onClick={() => handleOnClick()}>Log Out </Link>
+            </div>
+          ) : (
+            <div className="sign">
+              <div className="header_signin">
+                <Link to="/Sign-In">Sign-In </Link>{" "}
+              </div>
+              <div className="header_signup">
+                <Link to="/Create-Account">Sign-up</Link>
+              </div>
+            </div>
+          )}
+
+          <div className="header_cart">
+            {" "}
             <Link to="/Cart">
               <i class="fas fa-shopping-cart"></i>
+              <span>{totalItems()}</span>
             </Link>
-          </Nav.Link>
-        </Nav>
-      </Navbar>
-      <div className="menu container">
-        <div>All Categories</div>
-        <div>Dairy</div>
-        <div>Vegetable</div>
-        <div>Meat</div>
-        <div>Grocery</div>
+          </div>
+          <div className="header_myprofile">
+            <Link to="/my-profile">My-Profile</Link>
+          </div>
+        </div>
       </div>
-    </div>
+      <div>
+        {" "}
+        <MenuComponent />
+      </div>
+    </>
   );
 };
 
