@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  div,
-  Nav,
-  Form,
-  Button,
-  FormControl,
-  NavDropdown,
-} from "react-bootstrap";
-import { MenuComponent } from "../menuComponent/menuComponent";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Form, Button, FormControl, Dropdown } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import "./defaultLayout.css";
-import image from "../../assets/storeLogo/organiccartlogo.jpg";
-
+import { logout } from "../../pages/login/loginAction.js";
+import { userAutoLogin } from "../../pages/login/loginAction.js";
 const Header = () => {
   const history = useHistory();
-  const { isAuthorised } = useSelector((state) => state.login);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { isAuthorised, result } = useSelector((state) => state.login);
   const { cartList } = useSelector((state) => state.cart);
+  const { loginResponse } = useSelector((state) => state.login);
+
+  const accessJWT = sessionStorage.getItem("accessJWT");
+  const refreshJWT = localStorage.getItem("EcommerceRefreshJWT");
+  console.log("from header", accessJWT, refreshJWT);
+  console.log("from header", isAuthorised);
+
+  // useEffect(() => {
+  //   if (!accessJWT && !refreshJWT) history.push("Sign-In");
+  // }, [accessJWT, refreshJWT]);
+
   const totalItems = () => {
     let totalItemsCount = 0;
 
@@ -27,10 +32,17 @@ const Header = () => {
     return totalItemsCount;
   };
 
-  const handleOnClick = () => {
-    localStorage.removeItem("EcommerceRefreshJWT");
-    sessionStorage.removeItem("accessJWT");
-    history.push("/Sign-In");
+  let { from } = location.state || { from: { pathname: "/" } };
+  useEffect(() => {
+    isAuthorised && history.replace(from);
+    !isAuthorised && dispatch(userAutoLogin());
+  }, [isAuthorised]);
+
+  const handleOnClickLogOut = () => {
+    console.log("from logout", loginResponse);
+    console.log(loginResponse?.result);
+    dispatch(logout(loginResponse?.result));
+    history.push("/");
   };
 
   return (
@@ -58,9 +70,9 @@ const Header = () => {
           </div>
         </div>
         <div className="header_links">
-          {localStorage.getItem("EcommerceRefreshJWT") ? (
+          {isAuthorised ? (
             <div className="header_logout">
-              <Link onClick={handleOnClick}>Log Out </Link>
+              <Link onClick={handleOnClickLogOut}>Log Out </Link>
             </div>
           ) : (
             <div className="sign">
@@ -81,7 +93,32 @@ const Header = () => {
             </Link>
           </div>
           <div className="header_myprofile">
-            <Link to="/my-profile">My-Profile</Link>
+            <Dropdown>
+              <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                My-Profile
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu style={{ background: "black", color: "white" }}>
+                <Dropdown.Item
+                  href="#/action-1"
+                  style={{ background: "black", color: "white" }}
+                >
+                  <Link to="/recent">Recently Viewed</Link>
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-2"
+                  style={{ background: "black", color: "white" }}
+                >
+                  <Link to="/purchases">Purchases</Link>
+                </Dropdown.Item>
+                <Dropdown.Item
+                  href="#/action-3"
+                  style={{ background: "black", color: "white" }}
+                >
+                  <Link to="/userProfile">Profile </Link>
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
       </div>

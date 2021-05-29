@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Jumbotron, Alert, Spinner } from "react-bootstrap";
-import { loginAction } from "../../pages/login/loginAction";
+import { loginAction, userAutoLogin } from "../../pages/login/loginAction";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 
 const LoginForm = () => {
   const initialState = {
@@ -11,23 +11,31 @@ const LoginForm = () => {
   };
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const { isLoading, loginResponse, isAuthorised } = useSelector(
     (state) => state.login
   );
 
   const [loginFormData, setLoginFormData] = useState(initialState);
+
+  let { from } = location.state || { from: { pathname: "/" } };
+
   useEffect(() => {
-    isAuthorised && history.push("/Home");
+    isAuthorised && history.replace(from);
+    !isAuthorised && dispatch(userAutoLogin());
   }, [isAuthorised]);
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setLoginFormData({ ...loginFormData, [name]: value });
     console.log(loginFormData);
   };
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
     dispatch(loginAction(loginFormData));
   };
+
   return (
     <div>
       {isLoading && <Spinner variant="primary" animation="border"></Spinner>}

@@ -5,9 +5,12 @@ import { fetchGivenSlugProduct } from "../../pages/product/productAction";
 import { Image, Spinner, Button, Alert } from "react-bootstrap";
 import { addToCart } from "../../pages/cart/cartAction";
 import "./viewProductComponent.css";
+import { addReviewsAction } from "../../pages/reviews/reviewsAction";
 export const ViewProductComponent = () => {
   const dispatch = useDispatch();
   const [selectedQty, setselectedQty] = useState(1);
+
+  const [reviews, setReviews] = useState("");
   const [controlQuantity, setcontrolQuantity] = useState(false);
   const { selectedProductBySlugList, isLoading } = useSelector(
     (state) => state.product
@@ -17,12 +20,24 @@ export const ViewProductComponent = () => {
   let { slug } = useParams();
   useEffect(() => {
     dispatch(fetchGivenSlugProduct(slug));
+    // dispatch(fetchaAllReviews())
   }, [slug]);
 
   const handleOnClick = (listitem, selectedQty) => {
     //  const newObj = { listitem, selectedQty };
     dispatch(addToCart(listitem, selectedQty));
   };
+
+  const handleOnReviewChange = (e) => {
+    const { value } = e.target;
+    setReviews(value);
+   
+  };
+
+  const handleOnReviewsClick = (prodId) => {
+    dispatch(addReviewsAction(reviews));
+  };
+
   const handleOnChange = (e) => {
     setcontrolQuantity("false");
     const { name, value } = e.target;
@@ -43,53 +58,68 @@ export const ViewProductComponent = () => {
       {isLoading && <Spinner variant="primary" animation="border" />}
       {selectedProductBySlugList?.map((item, i) => {
         return (
-          <div className="viewproduct_screen">
-            <div class="productscreen_left" key={i}>
-              <div className="image">
-                <img src={item?.images[0]} alt="Products" />
+          <>
+            <div className="viewproduct_screen">
+              <div class="productscreen_left" key={i}>
+                <div className="image">
+                  <img src={item?.images[0]} alt="Products" />
+                </div>
+                <div className="left_info">
+                  <p className="left_name">{item.name}</p>
+
+                  <p>Price: ${item.price}</p>
+                  <p>SalePrice: ${item.salePrice}</p>
+
+                  <p>{item.description}</p>
+                  <p>Huurry up Buy now to save bunch of money</p>
+                </div>
               </div>
-              <div className="left_info">
-                <p className="left_name">{item.name}</p>
-
-                <p>Price: ${item.price}</p>
-                <p>SalePrice: ${item.salePrice}</p>
-
-                <p>{item.description}</p>
-                <p>Huurry up Buy now to save bunch of money</p>
+              <div className="productscreen_right">
+                <div className="right_info">
+                  <p>Price: ${item.price}</p>
+                  <p>
+                    {item.qty > 0 ? <h5> In stock</h5> : <h5> Out of stock</h5>}
+                  </p>
+                  <p>Sale End Date is : {date}</p>
+                  <p>
+                    Quantity:
+                    <input
+                      type="form"
+                      name="quantity"
+                      onChange={handleOnChange}
+                      value={controlQuantity === true ? "0" : selectedQty}
+                    ></input>
+                  </p>
+                  {controlQuantity === true && (
+                    <Alert variant="danger">
+                      We have only {item.qty} {item.name} available
+                    </Alert>
+                  )}
+                  <p>
+                    <Button
+                      variant="success"
+                      onClick={() => handleOnClick(item, selectedQty)}
+                    >
+                      Add to Cart
+                    </Button>
+                  </p>{" "}
+                </div>
               </div>
             </div>
-            <div className="productscreen_right">
-              <div className="right_info">
-                <p>Price: ${item.price}</p>
-                <p>
-                  {item.qty > 0 ? <h5> In stock</h5> : <h5> Out of stock</h5>}
-                </p>
-                <p>Sale End Date is : {date}</p>
-                <p>
-                  Quantity:
-                  <input
-                    type="form"
-                    name="quantity"
-                    onChange={handleOnChange}
-                    value={controlQuantity === true ? "0" : selectedQty}
-                  ></input>
-                </p>
-                {controlQuantity === true && (
-                  <Alert variant="danger">
-                    We have only {item.qty} {item.name} available
-                  </Alert>
-                )}
-                <p>
-                  <Button
-                    variant="success"
-                    onClick={() => handleOnClick(item, selectedQty)}
-                  >
-                    Add to Cart
-                  </Button>
-                </p>{" "}
+            <div className="reviews">
+              <h5>Product Reviews</h5>
+              <input
+                type="form"
+                value={reviews}
+                onChange={handleOnReviewChange}
+              ></input>
+              <div className="review_button">
+                <Button onClick={handleOnReviewsClick} variant="success">
+                  Add reviews
+                </Button>
               </div>
             </div>
-          </div>
+          </>
         );
       })}
     </div>

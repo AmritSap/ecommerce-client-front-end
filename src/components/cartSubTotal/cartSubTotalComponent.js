@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export const CartSubTotalComponent = () => {
   const { cartList } = useSelector((state) => state.cart);
@@ -32,7 +33,9 @@ export const CartSubTotalComponent = () => {
       </div>
       <div>
         {" "}
-        <Button variant="success">Checkout</Button>{" "}
+        <Button variant="success">
+          <Link to="/checkout">Checkout</Link>
+        </Button>{" "}
       </div>
     </>
   );

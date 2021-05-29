@@ -15,11 +15,14 @@ const CartComponent = () => {
   const [changeInQuantity, setChangeInQuantity] = useState(
     cartList.selectedQty
   );
-  // useEffect(() => {
-  //   dispatch(addToCart());
-  // });
 
-  ///
+  const cartListFromLocalStorage = localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : [];
+
+  useEffect(() => {
+    !cartList && dispatch(addToCart(cartListFromLocalStorage));
+  }, [cartList]);
 
   const changeInQuantityHandler = (listitem, selectedQty) => {
     dispatch(addToCart(listitem, selectedQty));

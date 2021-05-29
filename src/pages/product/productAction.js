@@ -17,7 +17,7 @@ export const fetchProducts = () => async (dispatch) => {
   } catch (error) {
     console.log(error);
     const err = {
-      status: "error",
+      status: "error", 
       message: error.message,
     };
 

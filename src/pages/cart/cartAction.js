@@ -9,10 +9,11 @@ export const addToCart = (listitem, selectedQty) => async (dispatch) => {
   try {
     const newItem = {
       ...listitem,
-      selectedQty,
+      selectedQty
     };
-    console.log("from action", newItem);
+    
     dispatch(getCartSuccess(newItem));
+    localStorage.setItem("cart", JSON.stringify(newItem));
   } catch (error) {
     const err = {
       status: "error",
@@ -26,6 +27,7 @@ export const addToCart = (listitem, selectedQty) => async (dispatch) => {
 export const deleteFromCart = (item) => async (dispatch) => {
   try {
     dispatch(deleteFromCartSuccess(item));
+    localStorage.removeItem("cart", JSON.stringify(item));
   } catch (error) {
     const err = {
       status: "error",
