@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import DefaultLayout from "./components/default-layout/DefaultLayout";
 import Login from "./pages/login/Login";
 import CreateAccount from "./pages/createAccount/CreateAccount";
 import Cart from "./pages/cart/Cart";
@@ -11,10 +10,15 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { PrivateRoute } from "../src/privateRoute/privateRoute";
 import { ViewProduct } from "./pages/viewProduct/ViewProduct";
 import Header from "./components/default-layout/Header";
+import { MenuComponent } from "./components/menuComponent/menuComponent";
+import Footer from "./components/default-layout/Footer";
 function App() {
   return (
     <div className="App">
       <Router>
+        <Header />
+        <MenuComponent />
+
         <Switch>
           <PrivateRoute exact path="/my-profile">
             <Profile />
@@ -44,6 +48,7 @@ function App() {
             <AllProduct />
           </Route>
         </Switch>
+        <Footer />
       </Router>
     </div>
   );

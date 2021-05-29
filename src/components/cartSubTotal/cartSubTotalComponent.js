@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
 
 export const CartSubTotalComponent = () => {
   const { cartList } = useSelector((state) => state.cart);
@@ -24,10 +25,14 @@ export const CartSubTotalComponent = () => {
   return (
     <>
       <div>
-        <h1>Total Items:{totalItems()}</h1>
+        <h4>Total Items:{totalItems()}</h4>
       </div>
       <div>
-        <h1>Total Price:${totalPrice()}</h1>
+        <h4>Total Price:${totalPrice()}</h4>
+      </div>
+      <div>
+        {" "}
+        <Button variant="success">Checkout</Button>{" "}
       </div>
     </>
   );

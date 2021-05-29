@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSelectedProducts } from "../../pages/product/productAction";
 import { Button, Image, Spinner } from "react-bootstrap";
-import DefaultLayout from "../../components/default-layout/DefaultLayout";
+
 import { addToCartSuccess } from "../../pages/product/productSlice";
 import { Link } from "react-router-dom";
 import "./displayProduct.css";
@@ -29,32 +29,32 @@ export const DisplayProducts = () => {
 
   return (
     <div>
-      <DefaultLayout>
-        <div className="product">
-          {isLoading && <Spinner variant="primary" animation="border" />}
-          {selectedProductList?.map((item, i) => {
-            return (
-              <div class="card" key={i}>
-                <Image
-                  className=""
-                  src={item?.images[0]}
-                  alt="Products"
-                  style={{ width: "100%" }}
-                />
-                <h1>{item.name}</h1>
+      <div className="product_screen">
+        {isLoading && <Spinner variant="primary" animation="border" />}
+        {selectedProductList?.map((item, i) => {
+          return (
+            <div class="product" key={i}>
+              <img
+                className="product_image"
+                src={item?.images[0]}
+                alt="Products"
+                style={{ width: "100%" }}
+              />
+              <div className="product_info">
+                <p className="name">{item.name}</p>
 
-                <p class="price">
-                  <h5>Price: {item.price}</h5>
-                </p>
-                <p>{item.description}</p>
-                <p>
-                  <Link to={`/product/${item.slug}`}>View Product</Link>
-                </p>
+                <p className="product_price">Price: {item.price}</p>
+                <p className="description">{item.description}</p>
               </div>
-            );
-          })}
-        </div>
-      </DefaultLayout>
+
+              <Link to={`/product/${item.slug}`}>
+                {" "}
+                <Button variant="success">View Product </Button>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

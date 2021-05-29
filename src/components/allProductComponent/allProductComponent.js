@@ -25,26 +25,26 @@ export const AllProductComponent = () => {
   // };
 
   return (
-    <div className="conatiner product">
+    <div className="product_screen">
       {isLoading && <Spinner variant="primary" animation="border" />}
       {productList?.map((item, i) => {
         return (
-          <div class="card" key={i}>
+          <div className="product" key={i}>
             <Image
-              className=""
+              className="product_image"
               src={item?.images[0]}
               alt="Products"
               style={{ width: "100%" }}
             />
-            <h1>{item.name}</h1>
+            <div className="product_info">
+              <p className="name">{item.name}</p>
 
-            <p class="price">
-              <h5>Price: {item.price}</h5>
-            </p>
-            <p>{item.description}</p>
-            <p>
+              <p className="product_price">Price: {item.price}</p>
+              <p className="description">{item.description}</p>
+            </div>
+            <Button variant="success">
               <Link to={`/product/${item.slug}`}>View Product</Link>
-            </p>
+            </Button>
           </div>
         );
       })}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCategory } from "../../pages/category/category.Action";
 import { Link } from "react-router-dom";
+import "./menuComponent.css";
 
 export const MenuComponent = () => {
   const dispatch = useDispatch();
@@ -12,9 +13,10 @@ export const MenuComponent = () => {
 
   const { categoryList } = useSelector((state) => state.category);
   return (
-    <div className="menu ">
-
-      <Link to ="/allProducts"><h4>All Products</h4></Link>
+    <div className="left-bar">
+      <Link to="/allProducts">
+        <h4>Categories</h4>
+      </Link>
       {categoryList?.map((item, i) => {
         return (
           <div key={i}>

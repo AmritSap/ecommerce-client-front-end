@@ -1,0 +1,12 @@
+.left-bar {
+  background: gray;
+
+  color: white;
+
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  z-index: 99;
+  display: flex;
+  justify-content: space-between;
+}

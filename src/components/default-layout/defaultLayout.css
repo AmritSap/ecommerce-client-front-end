@@ -4,6 +4,7 @@
   align-items: center;
   background-color: black;
   z-index: 100;
+  justify-content: space-between;
 }
 
 .header_logo {
@@ -39,4 +40,12 @@ a:hover {
   color: white;
   text-decoration: none;
   cursor: pointer;
+}
+
+.footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+
+  margin-top: 0px;
 }

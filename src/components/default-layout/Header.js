@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./defaultLayout.css";
 import image from "../../assets/storeLogo/organiccartlogo.jpg";
+
 const Header = () => {
   const history = useHistory();
   const { isAuthorised } = useSelector((state) => state.login);
@@ -29,7 +30,7 @@ const Header = () => {
   const handleOnClick = () => {
     localStorage.removeItem("EcommerceRefreshJWT");
     sessionStorage.removeItem("accessJWT");
-    history.push("/Home");
+    history.push("/Sign-In");
   };
 
   return (
@@ -59,7 +60,7 @@ const Header = () => {
         <div className="header_links">
           {localStorage.getItem("EcommerceRefreshJWT") ? (
             <div className="header_logout">
-              <Link onClick={() => handleOnClick()}>Log Out </Link>
+              <Link onClick={handleOnClick}>Log Out </Link>
             </div>
           ) : (
             <div className="sign">
@@ -83,10 +84,6 @@ const Header = () => {
             <Link to="/my-profile">My-Profile</Link>
           </div>
         </div>
-      </div>
-      <div>
-        {" "}
-        <MenuComponent />
       </div>
     </>
   );

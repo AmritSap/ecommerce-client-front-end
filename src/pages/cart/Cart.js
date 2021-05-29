@@ -1,14 +1,19 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import CartComponent from "../../components/cartComponent/CartComponent";
-import DefaultLayout from "../../components/default-layout/DefaultLayout";
+import { CartSubTotalComponent } from "../../components/cartSubTotal/cartSubTotalComponent";
 
 const Cart = () => {
+  const { cartList } = useSelector((state) => state.cart);
   return (
-    <div>
-      <DefaultLayout>
-        {" "}
+    <div className="cartpage">
+      <div className="left-part">
         <CartComponent />
-      </DefaultLayout>
+      </div>
+      <div className="rightpart">
+        {" "}
+        {cartList.length ? <CartSubTotalComponent /> : " "}
+      </div>
     </div>
   );
 };

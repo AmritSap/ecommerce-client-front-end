@@ -1,0 +1,21 @@
+.name {
+  text-decoration: none;
+  color: black;
+}
+.name:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.cartpage {
+  display: flex;
+  justify-content: space-between;
+}
+.cart_image {
+  height: 70px;
+  width: 70px;
+}
+.left_part {
+  flex-grow: 1;
+  margin-right: 0;
+}
